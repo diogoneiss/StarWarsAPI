@@ -1,0 +1,21 @@
+{
+  "name": "starWarsApi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/diogoneiss/StarWarsAPI.git",
+  "author": "Diogo Neiss",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "test": "jest",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "retry-axios": "^2.4.0"
+  },
+  "devDependencies": {
+    "babel-jest": "^27.0.0",
+    "jest": "^27.0.6"
+  }
+}
