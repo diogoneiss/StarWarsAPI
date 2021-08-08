@@ -1,15 +1,14 @@
 
-const mainFiles = require('../../index.js');
+const mainFiles = require('../../library.js');
 const axios = require('axios');
 const mockedData = require('./mockedData.js');
-jest.setTimeout(60000);
 
-let allShipsUidArray = [];
-let allShipsData = [];
+/**
+ * This is a unit test for getShipRequests.js, checking if the data expected by the API is correct and the functions work.
+ */ 
 
-
-describe("Checking to see if I can get all", () => {
-    it("Endpoint should return big list of starships", async () => {
+describe("Checking to see if I can get n ships", () => {
+    it("Endpoint should return 5 starships in crude format", async () => {
        const endpointReturn = await mainFiles.getAllSpaceshipsRequest(5);
 
        expect(endpointReturn).toBeDefined();
@@ -24,7 +23,7 @@ describe("Checking to see if I can get all", () => {
     });
 });
 
-describe("Checking to see if the ships endpoint works", () => {
+describe("Checking to see if the individual ships endpoint works", () => {
     it("Endpoint should return starship data for a given uid", async () => {
        const endpointReturn = await mainFiles.getShipData(2);
       
@@ -34,21 +33,10 @@ describe("Checking to see if the ships endpoint works", () => {
     });
 });
 
-describe("Creating array of starships uids from the endpoint", () => {
-    it("Array should have a lot of uids, starting with 2", async () => {
-      
-       const cleanedData = mainFiles.createStarshipIdArray(mockedData.startShipDataForFirstFiveEntries);
-
-       //check to see if matches mocked data
-
-       expect(cleanedData.length).toBe(5);
-       expect(cleanedData[0]).toBe("2");
-       expect(cleanedData).toEqual(mockedData.uidArrayForFirst5Entries);
-    });
-});
 
 
-describe("Getting all the data for a given uid array", () => {
+
+describe("Getting all the starship data for a given 5 uid array", () => {
     it("Json should have all the desired properties", async () => {
   
         // [ '2', '3', '5', '9', '11' ]
@@ -65,12 +53,4 @@ describe("Getting all the data for a given uid array", () => {
     });
 });
 
-describe("Cleaning data from the starship data array", () => {
-    it("Json should be cleaned to have just necessary data for a given starship json", async () => {
-    
-       const cleanedData = mainFiles.cleanStarshipData(mockedData.crudeShipDataFor5Entries);
-       expect(cleanedData).toBeDefined();
-       expect(cleanedData).toEqual(mockedData.finalShipDataFor5Entries);
-    });
-});
 
