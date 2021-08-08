@@ -14,7 +14,6 @@
     "roots": [
       "./tests"
     ],
-    
     "moduleFileExtensions": [
       "js"
     ],
@@ -28,6 +27,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "readline-sync": "^1.4.10",
     "retry-axios": "^2.4.0"
   },
   "devDependencies": {
