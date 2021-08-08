@@ -13,8 +13,8 @@ requestStarshipData()
             const maxDaysWithoutStop = convertTimeToDays(data.consumables);
             const shipSpeed = data.MGLT;
            
-            if ( [maxDaysWithoutStop, shipSpeed].includes(0)) {
-                console.log(`*[${data.name}] autonomy or speed are unknown, can't calculate.`);
+            if ( maxDaysWithoutStop === 0 || shipSpeed === "unknown") {
+                console.log(`* [${data.name}] autonomy or speed are unknown, can't calculate.`);
             } else {
                 //maxDaysWithoutStop * shipSpeed gives me MGLT/day, now i need to cancel the /day part, multiplying by 24
                 console.log(`* [${data.name}] will take ${Math.floor(requestedDistance / (maxDaysWithoutStop * shipSpeed * 24 ))} stops to reach the destination`);
