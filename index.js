@@ -1,29 +1,26 @@
-const { requestStarshipData } = require("./library")
-
-require("./library.js")
-
-
-const readline = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout
-  })
-  
-  readline.question(`Qual distância você deseja calcular, em MGLT? (megalights years) `, requestedDistance => {
-      const allData = requestStarshipData();
-      console.log("Serão necessários os seguintes números de paradas para chegar ao destino, por nave: ");
-      const result = allData.map(data => { 
-        //MGLT = MGLT / h
-        const distanceInWeeks = requestedDistance / (24 * 7);
-        //TODO: calculate the ship's time
-
-        //TODO: with time in hands, calculate the ships stops
+const { requestStarshipData, convertTimeToDays } = require("./library")
+const readlineSync = require("readline-sync");
 
 
-        let awnser = 0;
-        
-        console.log(`[ship name]: ${awnser}`);
+let requestedDistance = readlineSync.question('Qual distância você deseja calcular, em MGLT? (megalights years)?\nDistancia: ');
+
+console.log(`\nSerão necessários os seguintes números de paradas para percorrer ${requestedDistance} em MGLT, por nave: `);
+
+requestStarshipData()
+    .then(result => {
+        result.map(data => {
+            //MGLT = MGLT per h
+            const maxDaysWithoutStop = convertTimeToDays(data.consumables);
+            const shipSpeed = data.MGLT;
+           
+            if ( [maxDaysWithoutStop, shipSpeed].includes(0)) {
+                console.log(`*[${data.name}] autonomy or speed are unknown, can't calculate.`);
+            } else {
+                //maxDaysWithoutStop * shipSpeed gives me MGLT/day, now i need to cancel the /day part, multiplying by 24
+                console.log(`* [${data.name}] will take ${Math.floor(requestedDistance / (maxDaysWithoutStop * shipSpeed * 24 ))} stops to reach the destination`);
+            }
+        });
     })
-   
-    readline.close()
-  })
-  
+    .catch(err => console.log(err));
+
+
